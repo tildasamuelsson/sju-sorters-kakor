@@ -1,0 +1,263 @@
+/* =========================================================
+   STILMALL: Sju sorters kakor
+   Känsla: mysig och hemlagad, varmt brunt tema
+   Målgrupp: nybörjare som ska baka sina första kakor
+   Filen är kopplad till index.html via <link> i <head>.
+   ========================================================= */
+
+
+/* ---------- 1. FÄRGER (variabler) ----------
+   Alla färger samlas här så att de är lätta att ändra.
+   Används med var(--namn) längre ner i filen.
+   Alla text/bakgrund-par klarar WCAG-kravet 4.5:1. */
+:root {
+    --vanilj: #fff8e7;       /* bakgrund för hela sidan */
+    --mordeg: #f3e3c3;       /* ytor: header och ingredienslistor */
+    --kanel: #8b4513;        /* accent: meny, h2, länkar */
+    --mork-kanel: #5c3a21;   /* hover, h1 och footer */
+    --choklad: #3b2a20;      /* brödtext */
+    --vit: #ffffff;          /* kakornas kort */
+}
+
+
+/* ---------- 2. HELA SIDAN (body) ----------
+   Grundinställningar för all text på sidan. */
+body {
+    margin: 0;                               /* tar bort webbläsarens standardkant */
+    background-color: var(--vanilj);
+    color: var(--choklad);
+    font-family: Verdana, Arial, sans-serif; /* tydligt och lättläst på skärm */
+    font-size: 1.05rem;
+    line-height: 1.6;                        /* luftiga rader, lätt att följa ett recept */
+}
+
+
+/* ---------- 3. RUBRIKER (h1-h4) ----------
+   Georgia (serif) ger en varm "kokboks"-känsla och skiljer
+   rubrikerna tydligt från brödtexten. */
+h1, h2, h3, h4 {
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.2;
+}
+
+h1 { font-size: 2.8rem; color: var(--mork-kanel); margin: 0 0 0.5rem; } /* sidans titel */
+h2 { font-size: 2rem;   color: var(--kanel); }                           /* kakornas namn */
+h3 { font-size: 1.3rem; color: var(--choklad); }                         /* Ingredienser / Gör så här */
+h4 { font-size: 1.05rem; color: var(--choklad); font-style: italic; }    /* Ljus/Mörk deg (Schackrutor) */
+
+
+/* ---------- 4. SIDHUVUD (header) ----------
+   Det stilsatta elementet som tydligt framträder.
+   Bakgrundsbilden (mönstret) läggs till här via CSS och finns
+   alltså inte i HTML-filen. Rubrik och text till vänster,
+   introbilden till höger (grid med två kolumner). */
+header {
+    background-color: var(--mordeg);               /* syns om bilden inte laddas */
+    background-image: url("bilder/monster.png");   /* mönster, läggs till via CSS */
+    background-repeat: repeat;                     /* upprepas över hela headern */
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 18rem;  /* text till vänster, bild (fast bredd) till höger */
+    grid-template-rows: 1fr 1fr;
+    gap: 0.5rem 2rem;
+    border-bottom: 4px solid var(--kanel);
+}
+
+/* Rubriken ligger mot mitten nedifrån, texten under den */
+header h1 { align-self: end; }
+header p  { align-self: start; }
+
+/* Introbilden i headern ligger i högra kolumnen över två rader */
+header figure {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin: 0;
+}
+
+/* Introtexten i headern */
+header p {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+
+/* ---------- 5. MENY (nav) ----------
+   Huvudmenyn. Fastnar högst upp när man scrollar (sticky) så att
+   man alltid kan hoppa till en annan kaka. Kanelbrun list med
+   vita länkar i rad gör att den tydligt läses som en meny. */
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;                       /* ligger ovanpå innehållet vid scroll */
+    background-color: var(--kanel);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+nav ul {
+    list-style: none;                  /* tar bort punkterna i listan */
+    margin: 0;
+    padding: 0;
+    display: flex;                     /* lägger länkarna på rad */
+    flex-wrap: wrap;                   /* bryts till flera rader på små skärmar */
+    justify-content: center;
+}
+
+/* Menylänkarnas tillstånd: utgångsläge och besökt */
+nav a:link,
+nav a:visited {
+    display: block;                    /* hela rutan blir klickbar */
+    padding: 0.8rem 1rem;
+    color: var(--vit);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Hovring och tangentbordsfokus: mörkare bakgrund + understrykning */
+nav a:hover,
+nav a:focus {
+    background-color: var(--mork-kanel);
+    text-decoration: underline;
+}
+
+/* Aktiv: när man klickar */
+nav a:active {
+    background-color: var(--choklad);
+}
+
+
+/* ---------- 6. LÄNKAR I TEXTEN ----------
+   Länkar i brödtexten (t.ex. till ICA) och i footern.
+   Understrukna så att de syns även utan färgseende. */
+main a:link    { color: var(--kanel); }
+main a:visited { color: var(--mork-kanel); }
+main a:hover,
+main a:focus   { color: var(--vit); background-color: var(--kanel); }
+main a:active  { color: var(--vit); background-color: var(--choklad); }
+
+/* Synlig ram vid tangentbordsnavigering, för tillgänglighet */
+a:focus-visible {
+    outline: 3px solid var(--choklad);
+    outline-offset: 2px;
+}
+
+
+/* ---------- 7. INNEHÅLL (main) ----------
+   Begränsar bredden så att raderna inte blir för långa
+   (ca 65-75 tecken) och centrerar innehållet. */
+main {
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+
+/* ---------- 8. KAKORNAS KORT (article) ----------
+   Varje kaka ligger i ett vitt "kort" med rundade hörn och
+   en mjuk skugga, så att recepten skiljs åt tydligt. */
+article {
+    background-color: var(--vit);
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(59, 42, 32, 0.15);
+    padding: 1.5rem 2rem;
+    margin: 2.5rem 0;
+    display: flow-root;           /* håller den flytande bilden inne i kortet */
+    scroll-margin-top: 4rem;      /* rubriken hamnar under menyn, inte bakom den */
+}
+
+article h2 {
+    margin-top: 0;
+    border-bottom: 2px dashed var(--mordeg);  /* streckad linje som en kakform */
+    padding-bottom: 0.4rem;
+}
+
+
+/* ---------- 9. BILDER ----------
+   Bilderna anpassar sig till sin behållare och får rundade hörn. */
+img {
+    max-width: 100%;              /* bilden blir aldrig bredare än sin plats */
+    height: auto;                 /* behåller proportionerna */
+    border-radius: 12px;
+    border: 3px solid var(--mordeg);
+}
+
+/* Bilden i varje kakkort flyter till höger om texten */
+article figure {
+    float: right;
+    width: 35%;
+    margin: 0 0 1rem 1.5rem;      /* avstånd till texten till vänster och nedanför */
+}
+
+/* Bildtexter (fotograf och källa) */
+figcaption {
+    font-size: 0.85rem;
+    font-style: italic;
+    text-align: center;
+}
+
+
+/* ---------- 10. RECEPTEN (section i article) ----------
+   Ingredienslistan ligger på en beige yta i två kolumner.
+   flow-root gör att den beige rutan stannar bredvid den
+   flytande bilden i stället för att hamna bakom den. */
+article section ul {
+    display: flow-root;
+    background-color: var(--mordeg);
+    border-radius: 10px;
+    padding: 1rem 1rem 1rem 2.5rem;
+    columns: 2;                   /* ingredienserna i två kolumner */
+    column-gap: 2rem;
+}
+
+/* Stegen i "Gör så här" får lite luft mellan sig */
+article section ol li {
+    margin-bottom: 0.5rem;
+}
+
+
+/* ---------- 11. SIDFOT (footer) ----------
+   Mörk sidfot med källor, avslutar sidan. */
+footer {
+    background-color: var(--mork-kanel);
+    color: var(--vanilj);
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+footer h2 {
+    color: var(--vanilj);
+    margin-top: 0;
+}
+
+footer a:link,
+footer a:visited { color: var(--vanilj); }
+footer a:hover,
+footer a:focus   { color: var(--mork-kanel); background-color: var(--vanilj); }
+
+
+/* ---------- 12. MOBIL (skärmar smalare än 700px) ----------
+   Allt läggs i en kolumn så att sidan går att läsa på mobilen. */
+@media (max-width: 700px) {
+    header {
+        grid-template-columns: 1fr;     /* en kolumn i headern */
+        grid-template-rows: auto;
+    }
+    header figure {
+        grid-column: 1;
+        grid-row: auto;
+    }
+    h1 { font-size: 2.2rem; }
+    nav a:link,
+    nav a:visited {
+        padding: 0.4rem 0.6rem;         /* mindre meny som tar mindre plats */
+        font-size: 0.9rem;
+    }
+    article { padding: 1rem; }
+    article figure {
+        float: none;                    /* bilden flyter inte, ligger över texten */
+        width: 100%;
+        margin: 0 0 1rem;
+    }
+    article section ul {
+        columns: 1;                     /* ingredienserna i en kolumn */
+    }
+}
